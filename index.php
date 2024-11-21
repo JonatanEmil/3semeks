@@ -6,7 +6,7 @@ require "settings/init.php";
 <head>
 	<meta charset="utf-8">
 	
-	<title>Sigende titel</title>
+	<title>Forside</title>
 	
 	<meta name="robots" content="All">
 	<meta name="author" content="Udgiver">
@@ -19,6 +19,7 @@ require "settings/init.php";
 
 <body>
 <div class="row g-2">
+    <h1>Hej forside</h1>
 	<?php
 	$produkter = $db->sql("SELECT * FROM produkter");
 	foreach($produkter as $produkt) {
