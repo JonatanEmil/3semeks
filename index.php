@@ -21,9 +21,13 @@ require "settings/init.php";
 <div class="container-fluid vh-100">
     <div class="row g-2 d-flex justify-content-center text-center align-items-center h-100">
             <div class="col-8 col-md-4">
-                <h1>Klima Match!</h1>
-                <h2>Tryk på START for at starte spillet</h2>
-                <button type="button" class="btn btn-success">START</button>
+                <h1 class="mb-3">Klima Match!</h1>
+                <h2 class="mb-5">Tryk på START for at starte spillet</h2>
+                <div class="row my-5"></div>
+                <div class="row my-5"></div>
+                <div class="row my-5"></div>
+                <div class="row my-5"></div>
+                <button type="button" class="btn btn-success mt-5">START</button>
             </div>
     </div>
 </div>
