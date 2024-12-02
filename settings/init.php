@@ -31,7 +31,7 @@ define("CONFIG_LIVE", "0"); // 0: Test enviroment || 1: Live enviroment || 2: Do
 
 if(CONFIG_LIVE == 0) {
     $DB_SERVER = "localhost";
-    $DB_NAME = "test";
+    $DB_NAME = "klimamatch";
     $DB_USER = "root";
     $DB_PASS = "";
 } else if(CONFIG_LIVE == 1) {
