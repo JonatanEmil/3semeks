@@ -1,12 +1,16 @@
 <?php
 require "settings/init.php";
+
+if(!empty($_SESSION["userId"])) {
+   // header("Location: levelSelect.php?userId=".$_SESSION["userId"]);
+}
 ?>
 <!DOCTYPE html>
 <html lang="da">
 <head>
     <meta charset="utf-8">
 
-    <title>Forside</title>
+    <title>Klima Match</title>
 
     <meta name="robots" content="All">
     <meta name="author" content="Udgiver">
@@ -37,6 +41,7 @@ require "settings/init.php";
     </div>
 </div>
 
+<form action="login.php" method="post">
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -47,47 +52,24 @@ require "settings/init.php";
             <div class="modal-body">
                 <label class="form-label d-block" for="brugernavn">brugernavn</label>
                 <div class="input-group mb-5">
-                    <input class="form-control" id="brugernavn" placeholder="">
+                    <input class="form-control" id="brugernavn" name="brugernavn" placeholder="">
                 </div>
                 <label class="form-label d-block" for="kodeord">kodeord</label>
                 <div class="input-group">
-                    <input class="form-control" id="kodeord" placeholder="">
+                    <input class="form-control" id="kodeord" name="kodeord" placeholder="">
                 </div>
+                <div id="error-msg" class="text-danger mt-3"></div>
             </div>
             <div class="modal-footer d-flex justify-content-between">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <a href="levelSelect.php?id=$brugerid"><button type="button" class="btn btn-primary" id="login">Log in</button></a>
+                <button type="submit" class="btn btn-primary" id="login">Log in</button>
             </div>
         </div>
     </div>
 </div>
+</form>
 
-<script>
-    const login = document.getElementById("login");
-    let brugernavn = document.getElementById("brugernavn");
-    let kodeord = document.getElementById("kodeord");
 
-    const myModal = document.getElementById('myModal');
-    const myInput = document.getElementById('myInput');
-    myModal.addEventListener('shown.bs.modal', () => {
-        myInput.focus()
-    });
-
-    login.addEventListener("click", () => {
-       if (brugernavn && kodeord === true){
-           <?php
-           $user = $db->sql("SELECT userId FROM users WHERE brugernavn=user AND brugernavn=pass");
-           if (!empty($user)){
-               $user -> brugernavn;
-           }
-           ?>
-       }
-       else {
-           brugernavn = "Jonatan";
-           kodeord = "12345";
-       }
-    });
-</script>
 <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
