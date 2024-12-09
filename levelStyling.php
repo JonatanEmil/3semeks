@@ -19,10 +19,12 @@ require "settings/init.php";
 
 <body class="bg-farve">
 <div class="container-fluid h-100">
-    <div class="row g-2 vh-100">
+    <div class="row g-2 vh-100 d-flex justify-content-center">
         <div class="col-10">
+            <div>
             <div id="moves">Moves: 50</div>
             <div id="health">Health: 0</div>
+            </div>
             <div id="grid"></div>
         </div>
     </div>
@@ -39,6 +41,7 @@ require "settings/init.php";
 
     // Initialize the game grid
     function initGrid() {
+        grid.length = 0; // Clear the existing grid array
         for (let i = 0; i < gridSize; i++) {
             const row = [];
             for (let j = 0; j < gridSize; j++) {
@@ -47,7 +50,56 @@ require "settings/init.php";
             }
             grid.push(row);
         }
+
+        // Ensure no matches are present
+        removeInitialMatches();
         renderGrid();
+        checkGameStatus();
+    }
+
+    function removeInitialMatches() {
+        let hasMatch = true;
+
+        while (hasMatch) {
+            hasMatch = false;
+
+            // Check for matches and swap tiles if any are found
+            for (let row = 0; row < gridSize; row++) {
+                for (let col = 0; col < gridSize - 2; col++) {
+                    if (grid[row][col] === grid[row][col + 1] && grid[row][col] === grid[row][col + 2]) {
+                        hasMatch = true;
+                        swapTiles(row, col, row, col + 2); // Swap the matching tiles
+                        break; // Only swap one set of tiles at a time
+                    }
+                }
+            }
+
+            for (let col = 0; col < gridSize; col++) {
+                for (let row = 0; row < gridSize - 2; row++) {
+                    if (grid[row][col] === grid[row + 1][col] && grid[row][col] === grid[row + 2][col]) {
+                        hasMatch = true;
+                        swapTiles(row, col, row + 2, col); // Swap the matching tiles
+                        break; // Only swap one set of tiles at a time
+                    }
+                }
+            }
+        }
+    }
+
+
+    function checkGameStatus() {
+        if (health >= 100) {
+            alert("Congratulations! You win! 🎉");
+            // Optionally, you could redirect to another page or reload the game
+            // window.location.reload();
+            return; // Stop further checks if the game is won
+        }
+
+        if (moves <= 0) {
+            alert("Game over! You lose. 😢");
+            // Optionally, restart the game
+            // window.location.reload();
+        }
     }
 
     // Render the grid in the DOM
@@ -66,7 +118,6 @@ require "settings/init.php";
                 gridElement.appendChild(tileElement);
             });
         });
-        document.getElementById('health').innerText = `Health: ${health}`;
     }
 
     // Map tile types to colors
@@ -117,28 +168,31 @@ require "settings/init.php";
 
     // Check for matches
     function checkMatches() {
-        const matches = [];
+        const matches = new Set();
+
         // Check rows for matches
         for (let row = 0; row < gridSize; row++) {
             for (let col = 0; col < gridSize - 2; col++) {
                 if (grid[row][col] === grid[row][col + 1] && grid[row][col] === grid[row][col + 2]) {
-                    matches.push({row, col});
-                    matches.push({row, col: col + 1});
-                    matches.push({row, col: col + 2});
+                    matches.add(`${row}-${col}`);
+                    matches.add(`${row}-${col + 1}`);
+                    matches.add(`${row}-${col + 2}`);
                 }
             }
         }
+
         // Check columns for matches
         for (let col = 0; col < gridSize; col++) {
             for (let row = 0; row < gridSize - 2; row++) {
                 if (grid[row][col] === grid[row + 1][col] && grid[row][col] === grid[row + 2][col]) {
-                    matches.push({row, col});
-                    matches.push({row: row + 1, col});
-                    matches.push({row: row + 2, col});
+                    matches.add(`${row}-${col}`);
+                    matches.add(`${row + 1}-${col}`);
+                    matches.add(`${row + 2}-${col}`);
                 }
             }
         }
-        if (matches.length > 0) {
+
+        if (matches.size > 0) {
             clearMatches(matches);
         }
     }
@@ -146,9 +200,13 @@ require "settings/init.php";
     // Clear matched tiles and refill the grid
     function clearMatches(matches) {
         matches.forEach(match => {
-            grid[match.row][match.col] = null; // Mark tile as cleared
+            const [row, col] = match.split('-').map(Number);
+            grid[row][col] = null; // Mark tile as cleared
             health += 5; // Add points for each tile cleared
         });
+
+        document.getElementById('health').innerText = `Health: ${health}`;
+        checkGameStatus(); // Check after updating health
 
         // Drop tiles down to fill empty spaces
         for (let col = 0; col < gridSize; col++) {
