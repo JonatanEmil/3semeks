@@ -1,4 +1,5 @@
 // 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 @import "../node_modules/bootstrap/scss/functions";
 
 // 2. Include any default variable overrides here
@@ -18,19 +19,26 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
 @import "bootstrapComponents";
 
 // 5. Du kan lave styling her...
+.body{
+	font-family: "Open Sans", sans-serif;
+}
+
 #grid {
 	display: grid;
-	grid-template-columns: repeat(8, 50px);
+	grid-template-columns: repeat(8, 1fr); /* Adjust gridSize if necessary */
 	grid-gap: 5px;
+	width: 100%; /* Allow grid to scale with its container */
+	max-width: 90vmin; /* Prevent grid from growing too large */
+	margin: 0 auto; /* Center horizontally */
 }
 
 .tile {
-	width: 50px;
-	height: 50px;
-	background-color: #f2a;
-	border: 1px solid #000;
+	aspect-ratio: 1; /* Make tiles square */
+	background-size: cover; /* Ensure the image fills the tile */
+	border: 1px solid #ccc;
+	cursor: pointer;
 }
+
 .tile.selected {
-	border: 2px solid white;
-	box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+	border: 2px solid red; /* Highlight selected tile */
 }

@@ -15,7 +15,9 @@ if(!empty($_SESSION["userId"])) {
     <meta name="robots" content="All">
     <meta name="author" content="Udgiver">
     <meta name="copyright" content="Information om copyright">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <link href="css/styles.css" rel="stylesheet" type="text/css">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -62,7 +64,8 @@ if(!empty($_SESSION["userId"])) {
             </div>
             <div class="modal-footer d-flex justify-content-between">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" id="login">Log in</button>
+                <div><a href="signup.php"><button type="button" class="btn btn-secondary">Opret ny bruger</button></a>
+                <button type="submit" class="btn btn-primary" id="login">Log in</button></div>
             </div>
         </div>
     </div>

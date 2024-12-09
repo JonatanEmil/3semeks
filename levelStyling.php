@@ -1,44 +1,40 @@
 <?php
 require "settings/init.php";
-session_start();
-
-if (!empty($_GET["levelId"])) {
-    $levelId = ($_GET['levelId']);
-}
-$levels = $db->sql("SELECT * FROM levels WHERE levelId = $levelId");
-$level = $levels[0]; // Access the first (and presumably only) result
 ?>
 <!DOCTYPE html>
 <html lang="da">
 <head>
-	<meta charset="utf-8">
-	
-	<title>Level <?php echo $level->levelId ?></title>
-	
-	<meta name="robots" content="All">
-	<meta name="author" content="Udgiver">
-	<meta name="copyright" content="Information om copyright">
+    <meta charset="utf-8">
 
-	<link href="css/styles.css" rel="stylesheet" type="text/css">
-	
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Forside</title>
+
+    <meta name="robots" content="All">
+    <meta name="author" content="Udgiver">
+    <meta name="copyright" content="Information om copyright">
+
+    <link href="css/styles.css" rel="stylesheet" type="text/css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
-<body>
-<div class="row g-2">
-    <div id="game-container">
-        <div id="moves"> <?php echo $level->moves ?> </div>
-        <div id="health">Health: 0</div>
-        <div id="grid"></div>
+<body class="bg-farve">
+<div class="container-fluid h-100">
+    <div class="row g-2 vh-100">
+        <div class="col-10">
+            <div id="moves">Moves: 50</div>
+            <div id="health">Health: 0</div>
+            <div id="grid"></div>
+        </div>
     </div>
+</div>
 <script>
     const grid = [];
     const gridSize = 8;
-    const tileTypes = 5; // Number of tile colors
+    const tileTypes = 8; // Number of tile colors
     let selectedTile = null; // Track the currently selected tile
     let health = 0;
     //const moves = document.getElementById("moves");
-    let moves = <?php echo $level->moves ?>;
+    let moves = 50;
     console.log(moves);
 
     // Initialize the game grid
@@ -63,7 +59,7 @@ $level = $levels[0]; // Access the first (and presumably only) result
                 const tileElement = document.createElement('div');
                 tileElement.className = 'tile';
                 // If using an image, set it as the background image
-                tileElement.style.backgroundImage = getTileColor(tile);
+                tileElement.style.backgroundImage = getTileImg(tile);
                 tileElement.dataset.row = rowIndex;
                 tileElement.dataset.col = colIndex;
                 tileElement.addEventListener('click', onTileClick);
@@ -74,13 +70,16 @@ $level = $levels[0]; // Access the first (and presumably only) result
     }
 
     // Map tile types to colors
-    function getTileColor(type) {
+    function getTileImg(type) {
         const images = [
-            'url("img/Plante2.webp")', // Use your desired image for tile type 0
-            'blue',                   // Tile type 1 as a fallback color
-            'green',                  // Tile type 2
-            'yellow',                 // Tile type 3
-            'purple'                  // Tile type 4
+            'url("img/bee.webp")',
+            'url("img/coal.webp")',
+            'url("img/heart.webp")',
+            'url("img/plant.webp")',
+            'url("img/solarcell.webp")',
+            'url("img/svane.webp")',
+            'url("img/watermelon.webp")',
+            'url("img/windmill.webp")',
         ];
         return images[type];
     }
@@ -92,7 +91,7 @@ $level = $levels[0]; // Access the first (and presumably only) result
 
         if (!selectedTile) {
             // Select the first tile
-            selectedTile = { row, col };
+            selectedTile = {row, col};
             event.target.classList.add('selected');
         } else {
             // Swap tiles
@@ -110,7 +109,7 @@ $level = $levels[0]; // Access the first (and presumably only) result
         const temp = grid[row1][col1];
         grid[row1][col1] = grid[row2][col2];
         grid[row2][col2] = temp;
-        moves --;
+        moves--;
         console.log(moves);
         document.getElementById('moves').innerText = `Moves left: ${moves}`;
         renderGrid();
@@ -123,9 +122,9 @@ $level = $levels[0]; // Access the first (and presumably only) result
         for (let row = 0; row < gridSize; row++) {
             for (let col = 0; col < gridSize - 2; col++) {
                 if (grid[row][col] === grid[row][col + 1] && grid[row][col] === grid[row][col + 2]) {
-                    matches.push({ row, col });
-                    matches.push({ row, col: col + 1 });
-                    matches.push({ row, col: col + 2 });
+                    matches.push({row, col});
+                    matches.push({row, col: col + 1});
+                    matches.push({row, col: col + 2});
                 }
             }
         }
@@ -133,9 +132,9 @@ $level = $levels[0]; // Access the first (and presumably only) result
         for (let col = 0; col < gridSize; col++) {
             for (let row = 0; row < gridSize - 2; row++) {
                 if (grid[row][col] === grid[row + 1][col] && grid[row][col] === grid[row + 2][col]) {
-                    matches.push({ row, col });
-                    matches.push({ row: row + 1, col });
-                    matches.push({ row: row + 2, col });
+                    matches.push({row, col});
+                    matches.push({row: row + 1, col});
+                    matches.push({row: row + 2, col});
                 }
             }
         }
