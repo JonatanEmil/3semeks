@@ -60,30 +60,14 @@ $level = $levels[0]; // Access the first (and presumably only) result
     }
 
     function removeInitialMatches() {
-        let hasMatch = true;
-
-        while (hasMatch) {
-            hasMatch = false;
-
-            // Check for matches and swap tiles if any are found
-            for (let row = 0; row < gridSize; row++) {
-                for (let col = 0; col < gridSize - 2; col++) {
-                    if (grid[row][col] === grid[row][col + 1] && grid[row][col] === grid[row][col + 2]) {
-                        hasMatch = true;
-                        swapTiles(row, col, row, col + 2); // Swap the matching tiles
-                        break; // Only swap one set of tiles at a time
-                    }
-                }
-            }
-
+        for (let row = 0; row < gridSize; row++) {
             for (let col = 0; col < gridSize; col++) {
-                for (let row = 0; row < gridSize - 2; row++) {
-                    if (grid[row][col] === grid[row + 1][col] && grid[row][col] === grid[row + 2][col]) {
-                        hasMatch = true;
-                        swapTiles(row, col, row + 2, col); // Swap the matching tiles
-                        break; // Only swap one set of tiles at a time
-                    }
-                }
+                do {
+                    grid[row][col] = Math.floor(Math.random() * tileTypes);
+                } while (
+                    (col > 1 && grid[row][col] === grid[row][col - 1] && grid[row][col] === grid[row][col - 2]) ||
+                    (row > 1 && grid[row][col] === grid[row - 1][col] && grid[row][col] === grid[row - 2][col])
+                    );
             }
         }
     }
@@ -107,17 +91,20 @@ $level = $levels[0]; // Access the first (and presumably only) result
     // Render the grid in the DOM
     function renderGrid() {
         const gridElement = document.getElementById('grid');
-        gridElement.innerHTML = ''; // Clear previous grid
         grid.forEach((row, rowIndex) => {
             row.forEach((tile, colIndex) => {
-                const tileElement = document.createElement('div');
-                tileElement.className = 'tile';
-                // If using an image, set it as the background image
+                let tileElement = document.querySelector(`[data-row="${rowIndex}"][data-col="${colIndex}"]`);
+                if (!tileElement) {
+                    // Create the tile if it doesn't exist
+                    tileElement = document.createElement('div');
+                    tileElement.className = 'tile';
+                    tileElement.dataset.row = rowIndex;
+                    tileElement.dataset.col = colIndex;
+                    tileElement.addEventListener('click', onTileClick);
+                    gridElement.appendChild(tileElement);
+                }
+                // Update the tile's appearance
                 tileElement.style.backgroundImage = getTileImg(tile);
-                tileElement.dataset.row = rowIndex;
-                tileElement.dataset.col = colIndex;
-                tileElement.addEventListener('click', onTileClick);
-                gridElement.appendChild(tileElement);
             });
         });
     }
@@ -169,9 +156,13 @@ $level = $levels[0]; // Access the first (and presumably only) result
     }
 
     // Check for matches
-    function checkMatches() {
-        const matches = new Set();
+    let matchCheckInProgress = false;
 
+    function checkMatches() {
+        if (matchCheckInProgress) return; // Prevent multiple simultaneous checks
+        matchCheckInProgress = true;
+
+        const matches = new Set();
         // Check rows for matches
         for (let row = 0; row < gridSize; row++) {
             for (let col = 0; col < gridSize - 2; col++) {
@@ -197,6 +188,8 @@ $level = $levels[0]; // Access the first (and presumably only) result
         if (matches.size > 0) {
             clearMatches(matches);
         }
+
+        matchCheckInProgress = false; // Reset flag after processing
     }
 
     // Clear matched tiles and refill the grid
