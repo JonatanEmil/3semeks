@@ -2,7 +2,7 @@
 require "settings/init.php";
 
 if(!empty($_SESSION["userId"])) {
-   // header("Location: levelSelect.php?userId=".$_SESSION["userId"]);
+    header("Location: levelSelect.php?userId=".$_SESSION["userId"]);
 }
 ?>
 <!DOCTYPE html>
@@ -48,11 +48,11 @@ if(!empty($_SESSION["userId"])) {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <label class="form-label d-block" for="brugernavn">brugernavn</label>
+                <label class="form-label d-block" for="brugernavn">Brugernavn</label>
                 <div class="input-group mb-5">
                     <input class="form-control" id="brugernavn" name="brugernavn" placeholder="">
                 </div>
-                <label class="form-label d-block" for="kodeord">kodeord</label>
+                <label class="form-label d-block" for="kodeord">Kodeord</label>
                 <div class="input-group">
                     <input class="form-control" id="kodeord" name="kodeord" placeholder="">
                 </div>
