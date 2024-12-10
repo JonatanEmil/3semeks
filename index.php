@@ -24,15 +24,14 @@ if(!empty($_SESSION["userId"])) {
 </head>
 
 <body>
-<div class="d-flex align-items-center justify-content-center text-white"
-     style="background-image: url('img/titlescreen.webp'); background-size: cover; background-position: center; height: 100vh;">
+<div class="d-flex align-items-center justify-content-center text-white vh-100"
+     style="background-image: url('img/titlescreen.webp'); background-size: cover; background-position: center;">
     <div class="container-fluid vh-100">
         <div class="row g-2 d-flex justify-content-center text-center align-items-center h-100">
             <div class="col-8 col-md-4 col-xl-3">
                 <h1 class="mb-3">Klima Match!</h1>
                 <h2 class="mb-5">Tryk på START for at starte spillet</h2>
-                <button type="button" class="btn btn-success mt-3 fs-3" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal">START
+                <button type="button" class="btn btn-success mt-3 fs-3" data-bs-toggle="modal" data-bs-target="#exampleModal">START
                 </button>
             </div>
         </div>

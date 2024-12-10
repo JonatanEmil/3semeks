@@ -75,7 +75,7 @@ $level = $levels[0]; // Access the first (and presumably only) result
 
     function checkGameStatus() {
         if (health >= 100) {
-            alert("Congratulations! You win! 🎉");
+            alert("<?php echo $level->levelFact ?> <a href='<?php echo $level->levelFactSource?>'> </a> ");
             // Optionally, you could redirect to another page or reload the game
             // window.location.reload();
             return; // Stop further checks if the game is won
