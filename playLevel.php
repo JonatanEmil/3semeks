@@ -4,7 +4,10 @@ session_start();
 
 if (!empty($_GET["levelId"])) {
     $levelId = ($_GET['levelId']);
+} else {
+    die('Level ID is missing.');
 }
+
 $levels = $db->sql("SELECT * FROM levels WHERE levelId = $levelId");
 $level = $levels[0]; // Access the first (and presumably only) result
 ?>
@@ -25,7 +28,8 @@ $level = $levels[0]; // Access the first (and presumably only) result
 </head>
 
 <body>
-<div class="row g-2">
+<?php include 'navbar.php'; ?>
+<div class="row g-2 mt-5">
     <div id="game-container">
         <div id="moves"> <?php echo $level->moves ?> </div>
         <div id="health">Health: 0</div>
@@ -33,7 +37,7 @@ $level = $levels[0]; // Access the first (and presumably only) result
     </div>
 <script>
     const grid = [];
-    const gridSize = 8;
+    const gridSize = 7;
     const tileTypes = 5; // Number of tile colors
     let selectedTile = null; // Track the currently selected tile
     let health = 0;
