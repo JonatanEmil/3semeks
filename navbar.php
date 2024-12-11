@@ -55,7 +55,7 @@ if ($levelResult) {
         // Show creature image if on playLevel.php
         elseif ($currentPage == 'playLevel.php'): ?>
             <div class="circle bg-farve">
-                <p class="display-1" id="moves"><?php echo $levelMoves ?></p>
+                <p class="display-1" id="moves"><?php echo $level->levelMoves; ?></p>
             </div>
             <div>
 

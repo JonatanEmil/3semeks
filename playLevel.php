@@ -8,7 +8,7 @@ if (!empty($_GET["levelId"])) {
     die('Level ID is missing.');
 }
 
-$levels = $db->sql("SELECT * FROM levels WHERE levelId = $levelId");
+$levels = $db->sql("SELECT * FROM levels INNER JOIN worlds ON worldDesign = WorldId WHERE levelId = $levelId");
 $level = $levels[0]; // Access the first (and presumably only) result
 ?>
 <!DOCTYPE html>
@@ -28,11 +28,28 @@ $level = $levels[0]; // Access the first (and presumably only) result
 </head>
 
 <body>
-<?php include 'navbar.php'; ?>
-<div class="row g-2 mt-5">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-center align-items-center w-100 position-relative">
+            <div class="lives-wrapper ">
+                <img src="img/lives.webp"
+                     alt="Du har<?php echo $level->moves; ?> liv"
+                     class="profile-picture rounded-circle ">
+                <span class="heart-count display-1" id="moves"><?php echo $level->moves; ?></span>
+            </div>
+            <p class="display-1 text-center m-0 fw-bold">Level <?php echo $level->levelId; ?></p>
+            <!-- Profile Picture -->
+            <div class="profile-wrapper bg-light">
+                <img src="img/<?php echo $world->worldFriend; ?>"
+                     alt="Profile Picture"
+                     class="profile-picture rounded-circle">
+                <span id="health">Health: 0</span>
+            </div>
+        </div>
+    </div>
+</nav>
+<div class="row g-2">
     <div id="game-container">
-        <div id="moves"> <?php echo $level->moves ?> </div>
-        <div id="health">Health: 0</div>
         <div id="grid"></div>
     </div>
 <script>
@@ -133,9 +150,11 @@ $level = $levels[0]; // Access the first (and presumably only) result
         const row = parseInt(event.target.dataset.row);
         const col = parseInt(event.target.dataset.col);
 
+        console.log('Tile clicked:', row, col); // Debug log to check selection
+
         if (!selectedTile) {
             // Select the first tile
-            selectedTile = {row, col};
+            selectedTile = { row, col };
             event.target.classList.add('selected');
         } else {
             // Swap tiles
@@ -153,10 +172,11 @@ $level = $levels[0]; // Access the first (and presumably only) result
         const temp = grid[row1][col1];
         grid[row1][col1] = grid[row2][col2];
         grid[row2][col2] = temp;
+
         moves--;
-        console.log(moves);
+        console.log(moves); // Debugging log for moves
         document.getElementById('moves').innerText = `Moves left: ${moves}`;
-        renderGrid();
+        renderGrid(); // Re-render the grid after the swap
     }
 
     // Check for matches
@@ -200,8 +220,16 @@ $level = $levels[0]; // Access the first (and presumably only) result
     function clearMatches(matches) {
         matches.forEach(match => {
             const [row, col] = match.split('-').map(Number);
+            const tileType = grid[row][col];
+
+            // Check if the matched tile is the coal tile (type 1)
+            if (tileType === 1) {
+                health -= 10; // Subtract points for coal matches (adjust the value as needed)
+            } else {
+                health += 5; // Add points for other matches
+            }
+
             grid[row][col] = null; // Mark tile as cleared
-            health += 5; // Add points for each tile cleared
         });
 
         document.getElementById('health').innerText = `Health: ${health}`;

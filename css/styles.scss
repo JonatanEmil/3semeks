@@ -12,6 +12,9 @@ $link-decoration: none;
 // 4. Include any default map overrides here
 $custom-colors: (
 	"farve": $cyan-400,
+	//"denmark": $cyan-400,
+	//"kattekat": $cyan-400,
+	//"bornholm": $cyan-400,
 );
 
 $theme-colors: map-merge($theme-colors, $custom-colors);
@@ -21,8 +24,59 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
 // 5. Du kan lave styling her...
 
 // Global body styling
-.body {
+body {
 	font-family: "Open Sans", sans-serif;
+	margin: 0;
+	padding: 0;
+	overflow: hidden; /* Disable scrolling */
+	height: 100%; /* Ensure body takes up full height */
+}
+.lives-wrapper {
+	position: absolute; /* Position relative to the parent container */
+	left: 10px; /* Adjust to position the profile picture correctly */
+	top: 50%; /* Center vertically */
+	transform: translateY(-5%); /* Fix alignment to center */
+	background-color: white; /* White background padding */
+	border-radius: 50%; /* Rounded padding area */
+	padding: 10px; /* Space around the image */
+	z-index: 10; /* Make sure it appears above other elements */
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow for a subtle 3D effect */
+}
+
+.lives-picture {
+	width: 15vw; /* Adjust size */
+	//object-fit: cover; /* Maintain aspect ratio and crop if necessary */
+	border-radius: 50%; /* Fully round image */
+}
+
+.heart-count {
+	position: absolute; /* Positioned relative to the heart-container */
+	top: 50%; /* Center vertically */
+	left: 50%; /* Center horizontally */
+	transform: translate(-50%, -50%); /* Perfect alignment */
+	//font-size: 100px; /* Adjust font size for readability */
+	font-weight: bold; /* Bold for visibility */
+	color: black; /* Contrasting text color */
+	text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* Light shadow for readability */
+}
+
+.profile-wrapper {
+	position: absolute; /* Position relative to the parent container */
+	right: 10px; /* Adjust to position the profile picture correctly */
+	top: 50%; /* Center vertically */
+	transform: translateY(-5%); /* Fix alignment to center */
+	background-color: white; /* White background padding */
+	border-radius: 50%; /* Rounded padding area */
+	padding: 10px; /* Space around the image */
+	z-index: 10; /* Make sure it appears above other elements */
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow for a subtle 3D effect */
+}
+
+/* Profile picture styles */
+.profile-picture {
+	width: 15vw; /* Adjust size */
+	object-fit: cover; /* Maintain aspect ratio and crop if necessary */
+	border-radius: 50%; /* Fully round image */
 }
 
 #grid {
@@ -61,8 +115,8 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
 .level-container {
 	position: relative;
 	width: 100%;
-	max-width: 800px; // Limit the container size for larger screens
-	height: auto;
+	max-width: 800px; // Limit the container size for larger screens, gør den centered åbenbart o.O
+	height: 100%;
 	aspect-ratio: 16 / 9; // Maintain aspect ratio for responsiveness
 }
 
@@ -83,7 +137,7 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
 }
 
 // Optional responsive scaling for smaller screens
-@media only screen and (max-width: 768px) {
+/*@media only screen and (max-width: 768px) {
 	.level-icon {
 		height: 75px; // Adjust size for smaller screens
 		width: 75px;
@@ -92,6 +146,6 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
 	.current-level {
 		transform: scale(1.2); // Slightly reduce scaling on mobile
 	}
-}
+}*/
 
 // Grid styling (if used elsewhere)
