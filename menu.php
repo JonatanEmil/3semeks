@@ -1,10 +1,12 @@
 <?php
 // Get the current page URL or script name to determine what buttons to display
 $currentPage = basename($_SERVER['PHP_SELF']);
+$levels = $db->sql("SELECT * FROM levels INNER JOIN worlds ON worldDesign = worldId WHERE levelId = $currentLevel");
+$level = $levels[0];
 ?>
 
 <!-- Button to trigger the modal -->
-<button class="floating-btn" id="openMenuBtn" onclick="openMenu()">Menu</button>
+<button class="floating-btn bg-<?php echo $level->worldColor2 ?>" id="openMenuBtn" onclick="openMenu()">Menu</button>
 
 <!-- The Modal -->
 <div class="modal modal-menu" id="menuModal">

@@ -29,16 +29,16 @@ $world = $level->worldName;
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-<?php echo $level->worldColor1 ?>">
     <div class="container-fluid">
         <div class="d-flex justify-content-center align-items-center w-100 position-relative">
-            <div class="profile-wrapper bg-light">
+            <div class="profile-wrapper bg-<?php echo $level->worldColor1 ?>">
                 <img src="img/<?php echo $level->worldFriend; ?>"
                      alt="Profile Picture"
                      class="profile-picture rounded-circle">
                 <span id="health">Glæde: 0</span>
             </div>
-            <div class="moves-wrapper ">
+            <div class="moves-wrapper bg-<?php echo $level->worldColor1 ?> ">
                 <div class="profile-picture rounded-circle ">
                     <span class="display-1" id="moves"> Træk  <?php echo $level->moves; ?></span>
                 </div>

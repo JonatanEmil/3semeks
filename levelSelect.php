@@ -29,18 +29,18 @@ $worldLevels = $db->sql("SELECT * FROM levels WHERE worldDesign = $level->worldD
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-<?php echo $level->worldColor1 ?>">
     <div class="container-fluid">
         <div class="d-flex justify-content-center align-items-center w-100 position-relative">
-            <div class="lives-wrapper ">
+            <div class="lives-wrapper bg-<?php echo $level->worldColor1 ?>">
                 <img src="img/lives.webp"
                      alt="Du har <?php echo $user->hearts; ?> liv"
                      class="lives-picture">
                 <span class="heart-count display-1"><?php echo $user->hearts; ?></span>
             </div>
-            <p class="display-1 text-center m-0 fw-bold"><?php echo $level->worldName; ?></p>
+            <p class="display-1 text-center m-0 fw-bold text-white"><?php echo $level->worldName; ?></p>
             <!-- Profile Picture -->
-            <div class="profile-wrapper bg-light">
+            <div class="profile-wrapper bg-<?php echo $level->worldColor1 ?>">
                 <img src="img/<?php echo $user->profilePic; ?>"
                      alt="Profile Picture"
                      class="profile-picture rounded-circle">
@@ -91,8 +91,10 @@ $worldGen = $worldGens[0];
         ?>
     </div>
 </div>
-<!-- Include the floating menu -->
-<?php include 'menu.php'; ?>
+<?php
+$levelData = $level; // Pass `$level` to another variable, if needed.
+include 'menu.php';
+?>
 
 
 <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
