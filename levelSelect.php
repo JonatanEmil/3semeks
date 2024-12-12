@@ -34,8 +34,8 @@ $worldLevels = $db->sql("SELECT * FROM levels WHERE worldDesign = $level->worldD
         <div class="d-flex justify-content-center align-items-center w-100 position-relative">
             <div class="lives-wrapper ">
                 <img src="img/lives.webp"
-                     alt="Du har<?php echo $user->hearts; ?> liv"
-                     class="profile-picture rounded-circle ">
+                     alt="Du har <?php echo $user->hearts; ?> liv"
+                     class="lives-picture">
                 <span class="heart-count display-1"><?php echo $user->hearts; ?></span>
             </div>
             <p class="display-1 text-center m-0 fw-bold"><?php echo $level->worldName; ?></p>
@@ -53,6 +53,7 @@ $worldLevels = $db->sql("SELECT * FROM levels WHERE worldDesign = $level->worldD
 $worldGens = $db->sql("SELECT * FROM worlds INNER JOIN levels ON worldId = worldDesign WHERE levelId = $currentLevel ");
 $worldGen = $worldGens[0];
 ?>
+
 <div class=" bg-farve levelSelectBody">
     <div class="level-container">
         <!-- Background Image -->
@@ -90,8 +91,43 @@ $worldGen = $worldGens[0];
         ?>
     </div>
 </div>
+<!-- Include the floating menu -->
+<?php include 'menu.php'; ?>
 
 
 <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Open the modal
+    function openModal(modalId) {
+        // Hide all modals first
+        document.querySelectorAll('.modal').forEach(function(modal) {
+            modal.style.display = 'none';
+        });
+        // Show the modal with the given ID
+        document.getElementById(modalId).style.display = 'block';
+    }
+
+    // Close the modal
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+
+    // Close the modal when clicking outside of it
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal')) {
+            event.target.style.display = 'none';
+        }
+    }
+
+    // Open and close menu modal
+    function openMenu() {
+        document.getElementById('menuModal').style.display = 'block';
+    }
+
+    function closeMenu() {
+        document.getElementById('menuModal').style.display = 'none';
+    }
+
+</script>
 </body>
 </html>

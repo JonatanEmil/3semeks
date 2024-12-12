@@ -10,49 +10,100 @@ if (!empty($_GET["levelId"])) {
 
 $levels = $db->sql("SELECT * FROM levels INNER JOIN worlds ON worldDesign = WorldId WHERE levelId = $levelId");
 $level = $levels[0]; // Access the first (and presumably only) result
+$world = $level->worldName;
 ?>
 <!DOCTYPE html>
 <html lang="da">
 <head>
-	<meta charset="utf-8">
+    <meta charset="utf-8">
 
-	<title>Level <?php echo $level->levelId ?></title>
+    <title>Level <?php echo $level->levelId ?></title>
 
-	<meta name="robots" content="All">
-	<meta name="author" content="Udgiver">
-	<meta name="copyright" content="Information om copyright">
+    <meta name="robots" content="All">
+    <meta name="author" content="Udgiver">
+    <meta name="copyright" content="Information om copyright">
 
-	<link href="css/styles.css" rel="stylesheet" type="text/css">
+    <link href="css/styles.css" rel="stylesheet" type="text/css">
 
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <div class="d-flex justify-content-center align-items-center w-100 position-relative">
-            <div class="lives-wrapper ">
-                <img src="img/lives.webp"
-                     alt="Du har<?php echo $level->moves; ?> liv"
-                     class="profile-picture rounded-circle ">
-                <span class="heart-count display-1" id="moves"><?php echo $level->moves; ?></span>
+            <div class="profile-wrapper bg-light">
+                <img src="img/<?php echo $level->worldFriend; ?>"
+                     alt="Profile Picture"
+                     class="profile-picture rounded-circle">
+                <span id="health">Glæde: 0</span>
+            </div>
+            <div class="moves-wrapper ">
+                <div class="profile-picture rounded-circle ">
+                    <span class="display-1" id="moves"> Træk  <?php echo $level->moves; ?></span>
+                </div>
             </div>
             <p class="display-1 text-center m-0 fw-bold">Level <?php echo $level->levelId; ?></p>
             <!-- Profile Picture -->
-            <div class="profile-wrapper bg-light">
-                <img src="img/<?php echo $world->worldFriend; ?>"
-                     alt="Profile Picture"
-                     class="profile-picture rounded-circle">
-                <span id="health">Health: 0</span>
-            </div>
         </div>
     </div>
 </nav>
+<div class=" text-white vh-100"
+     style="background-image: url('img/<?php echo $level->worldLevelImg ?>'); background-size: cover; background-position: center;">
 <div class="row g-2">
     <div id="game-container">
         <div id="grid"></div>
     </div>
+</div>
+</div>
+
+<div class="modal fade" id="winModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="winModalLabel">TILYKKE, DU VANDT!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><?php echo ($level->levelFact); ?></p>
+                <p><a target="_blank" href="<?php echo($level->levelFactSource); ?>">Lær mere her!</a></p>
+            </div>
+            <div class="modal-footer">
+                <a href="logud.php"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Log Ud</button></a>
+                <a href="levelSelect.php?&userId=<?php echo $_SESSION["userId"]?> "> <button type="button" class="btn btn-primary">Tilbage til  <?php echo $world ?> </button></a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="loseModal" tabindex="-1" aria-labelledby="loseModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loseModalLabel">ØV, du tabte</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-footer">
+                <a href="logud.php"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Log Ud</button></a>
+                <a href="levelSelect.php?&userId=<?php echo $_SESSION["userId"]?> "> <button type="button" class="btn btn-primary">Tilbage til  <?php echo $world ?> </button></a>
+                <a href="playLevel.php?levelId=<?php echo $level->levelId ?>&userId=<?php echo $_SESSION["userId"] ?>"> <button type="button" class="btn btn-primary">Prøv igen </button></a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Include the menu -->
+<?php include 'menu.php'; ?>
 <script>
+    const winModal = document.getElementById('winModal');
+    const loseModal = document.getElementById('loseModal');
+    const myInput = document.getElementById('myInput');
+
+    winModal.addEventListener('shown.bs.modal', () => {
+        myInput.focus()
+    })
+    loseModal.addEventListener('shown.bs.modal', () => {
+        myInput.focus()
+    })
+
     const grid = [];
     const gridSize = 7;
     const tileTypes = 5; // Number of tile colors
@@ -96,17 +147,44 @@ $level = $levels[0]; // Access the first (and presumably only) result
 
     function checkGameStatus() {
         if (health >= 100) {
-            alert("<?php echo $level->levelFact ?> <a href='<?php echo $level->levelFactSource?>'> </a> ");
-            // Optionally, you could redirect to another page or reload the game
-            // window.location.reload();
-            return; // Stop further checks if the game is won
+
+            // Send AJAX request to increment the currentLevel
+            incrementLevel();
+
+            // Initialize and show the modal using Bootstrap's Modal API
+            const winModal = new bootstrap.Modal(document.getElementById('winModal'));
+            winModal.show();
         }
 
         if (moves <= 0) {
-            alert("Game over! You lose. 😢");
-            // Optionally, restart the game
-            // window.location.reload();
+            const loseModal = new bootstrap.Modal(document.getElementById('loseModal'));
+            loseModal.show();
         }
+    }
+
+    // Function to send AJAX request to increment the level
+    function incrementLevel() {
+        const userId = <?php echo $_SESSION["userId"]; ?>; // Assuming the userId is available in session
+        const levelId = <?php echo $level->levelId; ?>; // Assuming levelId is available
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'incrementLevel.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        // Prepare the data to send to the server
+        const data = `userId=${userId}&levelId=${levelId}`;
+
+        // Send the data
+        xhr.send(data);
+
+        // Handle the response from the server
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                console.log('Level incremented successfully');
+            } else {
+                console.error('Failed to increment level');
+            }
+        };
     }
 
     // Render the grid in the DOM
@@ -154,7 +232,7 @@ $level = $levels[0]; // Access the first (and presumably only) result
 
         if (!selectedTile) {
             // Select the first tile
-            selectedTile = { row, col };
+            selectedTile = {row, col};
             event.target.classList.add('selected');
         } else {
             // Swap tiles
@@ -175,7 +253,7 @@ $level = $levels[0]; // Access the first (and presumably only) result
 
         moves--;
         console.log(moves); // Debugging log for moves
-        document.getElementById('moves').innerText = `Moves left: ${moves}`;
+        document.getElementById('moves').innerText = `Træk ${moves}`;
         renderGrid(); // Re-render the grid after the swap
     }
 
@@ -266,7 +344,40 @@ $level = $levels[0]; // Access the first (and presumably only) result
 
     // Initialize the game
     initGrid();
+
+    // Open the modal
+    function openModal(modalId) {
+        // Hide all modals first
+        document.querySelectorAll('.modal').forEach(function(modal) {
+            modal.style.display = 'none';
+        });
+        // Show the modal with the given ID
+        document.getElementById(modalId).style.display = 'block';
+    }
+
+    // Close the modal
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+
+    // Close the modal when clicking outside of it
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal')) {
+            event.target.style.display = 'none';
+        }
+    }
+
+    // Open and close menu modal
+    function openMenu() {
+        document.getElementById('menuModal').style.display = 'block';
+    }
+
+    function closeMenu() {
+        document.getElementById('menuModal').style.display = 'none';
+    }
+
 </script>
+
 <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
