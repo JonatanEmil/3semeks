@@ -12,12 +12,12 @@ $link-decoration: none;
 // 4. Include any default map overrides here
 $custom-colors: (
         "farve": $cyan-400,
-        "danmarkcol1": $orange-900,
-        "kattekatcol1": $blue-900,
-        "bornholmcol1": $yellow-900,
-        "danmarkcol2": $orange-100,
-        "kattekatcol2": $yellow-100,
-        "bornholmcol2": $cyan-400,
+        "danmarkcol1": $yellow-600,
+        "kattekatcol1": $blue-700,
+        "bornholmcol1": $orange-800,
+        "danmarkcol2": $yellow-300,
+        "kattekatcol2": $blue-300,
+        "bornholmcol2": $orange-400,
 );
 
 $theme-colors: map-merge($theme-colors, $custom-colors);

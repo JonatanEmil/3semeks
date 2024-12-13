@@ -92,7 +92,10 @@ $worldGen = $worldGens[0];
     </div>
 </div>
 <?php
-$levelData = $level; // Pass `$level` to another variable, if needed.
+// Define the `$levelId` variable for use in the included file
+$levelId = $currentLevel;
+
+// Include the menu
 include 'menu.php';
 ?>
 

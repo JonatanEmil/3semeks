@@ -48,51 +48,61 @@ $world = $level->worldName;
         </div>
     </div>
 </nav>
-<div class=" text-white vh-100"
-     style="background-image: url('img/<?php echo $level->worldLevelImg ?>'); background-size: cover; background-position: center;">
-<div class="row g-2">
-    <div id="game-container">
-        <div id="grid"></div>
-    </div>
-</div>
-</div>
-
-<div class="modal fade" id="winModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="winModalLabel">TILYKKE, DU VANDT!</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p><?php echo ($level->levelFact); ?></p>
-                <p><a target="_blank" href="<?php echo($level->levelFactSource); ?>">Lær mere her!</a></p>
-            </div>
-            <div class="modal-footer">
-                <a href="logud.php"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Log Ud</button></a>
-                <a href="levelSelect.php?&userId=<?php echo $_SESSION["userId"]?> "> <button type="button" class="btn btn-primary">Tilbage til  <?php echo $world ?> </button></a>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="loseModal" tabindex="-1" aria-labelledby="loseModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="loseModalLabel">ØV, du tabte</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-footer">
-                <a href="logud.php"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Log Ud</button></a>
-                <a href="levelSelect.php?&userId=<?php echo $_SESSION["userId"]?> "> <button type="button" class="btn btn-primary">Tilbage til  <?php echo $world ?> </button></a>
-                <a href="playLevel.php?levelId=<?php echo $level->levelId ?>&userId=<?php echo $_SESSION["userId"] ?>"> <button type="button" class="btn btn-primary">Prøv igen </button></a>
-            </div>
+<div class=" text-white vh-100" style="background-image: url('img/<?php echo $level->worldLevelImg ?>'); background-size: cover; background-position: center;">
+    <div class="row g-2">
+        <div id="game-container">
+            <div id="grid"></div>
         </div>
     </div>
 </div>
 <!-- Include the menu -->
 <?php include 'menu.php'; ?>
+
+<div class="modal fade" id="winModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header ">
+                <h5 class="modal-title h1" id="winModalLabel">TILYKKE, DU VANDT!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body h4">
+                <p><?php echo($level->levelFact); ?></p>
+                <p class="text-break" ><a target="_blank" href="<?php echo($level->levelFactSource); ?>">Kilde</a></p>
+            </div>
+            <div class="modal-footer">
+                <a href="logud.php">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Log Ud</button>
+                </a>
+                <a href="levelSelect.php?&userId=<?php echo $_SESSION["userId"] ?> ">
+                    <button type="button" class="btn btn-primary">Tilbage til <?php echo $world ?> </button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="loseModal" tabindex="-1" aria-labelledby="loseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header ">
+                <h5 class="modal-title h1" id="loseModalLabel">ØV, du tabte</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-footer h4">
+                <a href="logud.php">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Log Ud</button>
+                </a>
+                <a href="levelSelect.php?&userId=<?php echo $_SESSION["userId"] ?> ">
+                    <button type="button" class="btn btn-primary">Tilbage til <?php echo $world ?> </button>
+                </a>
+                <a href="playLevel.php?levelId=<?php echo $level->levelId ?>&userId=<?php echo $_SESSION["userId"] ?>">
+                    <button type="button" class="btn btn-primary">Prøv igen</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
+
     const winModal = document.getElementById('winModal');
     const loseModal = document.getElementById('loseModal');
     const myInput = document.getElementById('myInput');
@@ -145,18 +155,21 @@ $world = $level->worldName;
     }
 
 
+    let levelIncremented = false; // Prevent multiple increments
+
     function checkGameStatus() {
-        if (health >= 100) {
+        if (health >= 100 && !levelIncremented) {
+            levelIncremented = true; // Set guard to true
 
             // Send AJAX request to increment the currentLevel
             incrementLevel();
 
-            // Initialize and show the modal using Bootstrap's Modal API
+            // Show the win modal
             const winModal = new bootstrap.Modal(document.getElementById('winModal'));
             winModal.show();
         }
 
-        if (moves <= 0) {
+        if (moves <= 0 && !levelIncremented) {
             const loseModal = new bootstrap.Modal(document.getElementById('loseModal'));
             loseModal.show();
         }
@@ -348,7 +361,7 @@ $world = $level->worldName;
     // Open the modal
     function openModal(modalId) {
         // Hide all modals first
-        document.querySelectorAll('.modal').forEach(function(modal) {
+        document.querySelectorAll('.modal').forEach(function (modal) {
             modal.style.display = 'none';
         });
         // Show the modal with the given ID
@@ -361,7 +374,7 @@ $world = $level->worldName;
     }
 
     // Close the modal when clicking outside of it
-    window.onclick = function(event) {
+    window.onclick = function (event) {
         if (event.target.classList.contains('modal')) {
             event.target.style.display = 'none';
         }

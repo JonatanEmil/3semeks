@@ -1,6 +1,6 @@
 <?php
 require "settings/init.php";
-
+session_start();
 if(!empty($_SESSION["userId"])) {
     header("Location: levelSelect.php?userId=".$_SESSION["userId"]);
 }

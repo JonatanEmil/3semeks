@@ -1,6 +1,8 @@
 <?php
 require "settings/init.php";
 
+session_start(); // Start a session to manage logged-in user state
+
 if (!empty($_POST["data"])) {
     $data = $_POST["data"];
     $starterLevel = 1;
@@ -20,8 +22,22 @@ if (!empty($_POST["data"])) {
     ];
 
     $db->sql($sql, $bind, false);
-    header("Location: index.php");
-    exit;
+    // Retrieve the newly created user's ID for session management
+    $userSql = "SELECT userID, userName FROM users WHERE userName = :userName";
+    $user = $db->sql($userSql, [":userName" => $data["brugernavn"]], true);
+
+    if ($user) {
+        // Store user data in the session
+        $_SESSION["userID"] = $user->userID;
+        $_SESSION["userName"] = $user->userName;
+
+        // Redirect to the home page or dashboard
+        header("Location: index.php?userId=" . $_SESSION["userID"]);
+        exit;
+    } else {
+        // Handle error if the user was not properly inserted/retrieved
+        echo "An error occurred. Please try again.";
+    }
 }
 
 ?>

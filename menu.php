@@ -1,8 +1,13 @@
 <?php
 // Get the current page URL or script name to determine what buttons to display
 $currentPage = basename($_SERVER['PHP_SELF']);
-$levels = $db->sql("SELECT * FROM levels INNER JOIN worlds ON worldDesign = worldId WHERE levelId = $currentLevel");
-$level = $levels[0];
+if (isset($levelId)) {
+    $levels = $db->sql("SELECT * FROM levels INNER JOIN worlds ON worldDesign = worldId WHERE levelId = $levelId");
+    $level = $levels[0]; // Retrieve the first result
+} else {
+    echo "Error: No level ID provided.";
+    return; // Stop execution if `$levelId` is not set
+}
 ?>
 
 <!-- Button to trigger the modal -->
