@@ -46,7 +46,7 @@ if (!empty($_POST["data"])) {
 <head>
     <meta charset="utf-8">
 
-    <title>Forside</title>
+    <title>Opret ny bruger til Klima Match</title>
 
     <meta name="robots" content="All">
     <meta name="author" content="Udgiver">

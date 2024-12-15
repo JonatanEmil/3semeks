@@ -32,18 +32,18 @@ $worldLevels = $db->sql("SELECT * FROM levels WHERE worldDesign = $level->worldD
 <nav class="navbar navbar-expand-lg navbar-light bg-<?php echo $level->worldColor1 ?>">
     <div class="container-fluid">
         <div class="d-flex justify-content-center align-items-center w-100 position-relative">
-            <div class="lives-wrapper bg-<?php echo $level->worldColor1 ?>">
+            <div class="lives-wrapper position-absolute bg-<?php echo $level->worldColor1 ?> p-2">
                 <img src="img/lives.webp"
                      alt="Du har <?php echo $user->hearts; ?> liv"
-                     class="lives-picture">
-                <span class="heart-count display-1"><?php echo $user->hearts; ?></span>
+                     class="lives-picture object-fit-cover">
+                <span class="heart-count display-1 position-absolute fw-bold text-black "><?php echo $user->hearts; ?></span>
             </div>
             <p class="display-1 text-center m-0 fw-bold text-white"><?php echo $level->worldName; ?></p>
             <!-- Profile Picture -->
-            <div class="profile-wrapper bg-<?php echo $level->worldColor1 ?>">
+            <div class="profile-wrapper position-absolute bg-<?php echo $level->worldColor1 ?> p-2">
                 <img src="img/<?php echo $user->profilePic; ?>"
                      alt="Profile Picture"
-                     class="profile-picture rounded-circle">
+                     class="profile-picture object-fit-cover rounded-circle ">
             </div>
         </div>
     </div>
@@ -54,8 +54,8 @@ $worldGens = $db->sql("SELECT * FROM worlds INNER JOIN levels ON worldId = world
 $worldGen = $worldGens[0];
 ?>
 
-<div class=" bg-farve levelSelectBody">
-    <div class="level-container">
+<div class=" bg-farve m-0 p-0 vh-100 d-flex justify-content-center align-items-center overflow-hidden ">
+    <div class="level-container position-relative w-100 h-100">
         <!-- Background Image -->
         <img src="img/<?php echo $worldGen->worldBackgroundImg ?>" alt="Background" class="img-fluid">
 
@@ -68,7 +68,7 @@ $worldGen = $worldGens[0];
                 $extraClass = "cleared-level"; // CSS class for cleared levels
             } elseif ($level->levelId == $currentLevel) {
                 $levelImage = "img/" . $worldGen->levelsImg; // Playable image
-                $extraClass = "current-level"; // CSS class for the current level
+                $extraClass = "current-level border border-2 border border-white"; // CSS class for the current level
             } else {
                 $levelImage = "img/" . $worldGen->levelsImg; // Default locked image if needed
                 $extraClass = "locked-level"; // CSS class for locked levels

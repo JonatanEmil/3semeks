@@ -28,7 +28,7 @@ error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING & ~E_DEPRECATED & ~E_STRICT);
  * $DB_NAME skal rettes til det din database for dette projekt hedder. Databasen er den du opretter i PHPMyAdmin
  *
  */
-define("CONFIG_LIVE", "0"); // 0: Test enviroment || 1: Live enviroment || 2: Docker
+define("CONFIG_LIVE", "1"); // 0: Test enviroment || 1: Live enviroment || 2: Docker
 
 if(CONFIG_LIVE == 0) {
     $DB_SERVER = "localhost";
@@ -36,10 +36,10 @@ if(CONFIG_LIVE == 0) {
     $DB_USER = "root";
     $DB_PASS = "";
 } else if(CONFIG_LIVE == 1) {
-    $DB_SERVER = "";
-    $DB_NAME = "";
-    $DB_USER = "";
-    $DB_PASS = "";
+    $DB_SERVER = "mysql49.unoeuro.com";
+    $DB_NAME = "karolinewn_dk_db_klimamatch";
+    $DB_USER = "karolinewn_dk";
+    $DB_PASS = "Fpt4b2rdnygaEDh59fBx";
 } else if(CONFIG_LIVE == 2) {
     $DB_SERVER = "mariadb-standard";
     $DB_NAME = "webshop";

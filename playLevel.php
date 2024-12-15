@@ -32,15 +32,15 @@ $world = $level->worldName;
 <nav class="navbar navbar-expand-lg navbar-light bg-<?php echo $level->worldColor1 ?>">
     <div class="container-fluid">
         <div class="d-flex justify-content-center align-items-center w-100 position-relative">
-            <div class="profile-wrapper bg-<?php echo $level->worldColor1 ?>">
+            <div class="profile-wrapper position-absolute bg-<?php echo $level->worldColor1 ?> p-2">
                 <img src="img/<?php echo $level->worldFriend; ?>"
                      alt="Profile Picture"
-                     class="profile-picture rounded-circle">
-                <span id="health">Glæde: 0</span>
+                     class="profile-picture object-fit-cover rounded-circle">
+                <span id="health" class="position-absolute display-5 fw-bold text-black">Glæde:<br>0/100</span>
             </div>
-            <div class="moves-wrapper bg-<?php echo $level->worldColor1 ?> ">
-                <div class="profile-picture rounded-circle ">
-                    <span class="display-1" id="moves"> Træk  <?php echo $level->moves; ?></span>
+            <div class="moves-wrapper position-absolute bg-<?php echo $level->worldColor1 ?> p-2">
+                <div class="profile-picture object-fit-cover rounded-circle">
+                    <span class="display-5 position-absolute fw-bold text-black" id="moves"> Træk  <?php echo $level->moves; ?></span>
                 </div>
             </div>
             <p class="display-1 text-center m-0 fw-bold">Level <?php echo $level->levelId; ?></p>
@@ -51,7 +51,7 @@ $world = $level->worldName;
 <div class=" text-white vh-100" style="background-image: url('img/<?php echo $level->worldLevelImg ?>'); background-size: cover; background-position: center;">
     <div class="row g-2">
         <div id="game-container">
-            <div id="grid"></div>
+            <div id="grid" class="bg-opacity-50 bg-black my-0 mx-auto d-grid gap-1 w-100"></div>
         </div>
     </div>
 </div>
@@ -74,7 +74,7 @@ $world = $level->worldName;
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Log Ud</button>
                 </a>
                 <a href="levelSelect.php?&userId=<?php echo $_SESSION["userId"] ?> ">
-                    <button type="button" class="btn btn-primary">Tilbage til <?php echo $world ?> </button>
+                    <button type="button" class="btn btn-primary ">Tilbage til <?php echo $world ?> </button>
                 </a>
             </div>
         </div>
@@ -323,8 +323,8 @@ $world = $level->worldName;
             grid[row][col] = null; // Mark tile as cleared
         });
 
-        document.getElementById('health').innerText = `Health: ${health}`;
-        checkGameStatus(); // Check after updating health
+        document.getElementById('health').innerHTML = `Glæde: <br> ${health}/100`;
+        checkGameStatus(); // Check after updating health1
 
         // Drop tiles down to fill empty spaces
         for (let col = 0; col < gridSize; col++) {

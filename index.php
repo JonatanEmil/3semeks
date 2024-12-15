@@ -15,6 +15,14 @@ if(!empty($_SESSION["userId"])) {
     <meta name="robots" content="All">
     <meta name="author" content="Udgiver">
     <meta name="copyright" content="Information om copyright">
+    <meta name=”description" content="Match 3 spil om klimaet, der helst skulle lære unge om klimaet">
+    <meta property="og:title" content="Klima Match" />
+    <meta property="og:type" content="klimamatch.dk" />
+    <meta property="og:url" content="https://www.klimamatch.dk" />
+    <meta property="og:image" content="https://www.klimamatch.dk/titlescreen.webp" />
+    <meta property="og:description" content="Match 3 spil om klimaet, der helst skulle lære unge om klimaet" />
+    <meta property="og:locale" content="da_DK" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
@@ -43,7 +51,7 @@ if(!empty($_SESSION["userId"])) {
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Log In</h1>
+                <h2 class="modal-title fs-5" id="exampleModalLabel">Log In</h2>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
