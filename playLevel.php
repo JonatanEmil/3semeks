@@ -39,8 +39,8 @@ $world = $level->worldName;
                 <span id="health" class="position-absolute display-5 fw-bold text-black">Glæde:<br>0/100</span>
             </div>
             <div class="moves-wrapper position-absolute bg-<?php echo $level->worldColor1 ?> p-2">
-                <div class="profile-picture object-fit-cover rounded-circle">
-                    <span class="display-5 position-absolute fw-bold text-black" id="moves"> Træk  <?php echo $level->moves; ?></span>
+                <div class="profile-picture object-fit-cover rounded-circle d-flex justify-content-center display-5 fw-bold text-black" id="moves">
+                    Træk <?php echo $level->moves; ?>
                 </div>
             </div>
             <p class="display-1 text-center m-0 fw-bold">Level <?php echo $level->levelId; ?></p>

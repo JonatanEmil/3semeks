@@ -32,7 +32,7 @@ $worldLevels = $db->sql("SELECT * FROM levels WHERE worldDesign = $level->worldD
 <nav class="navbar navbar-expand-lg navbar-light bg-<?php echo $level->worldColor1 ?>">
     <div class="container-fluid">
         <div class="d-flex justify-content-center align-items-center w-100 position-relative">
-            <div class="lives-wrapper position-absolute bg-<?php echo $level->worldColor1 ?> p-2">
+            <div class="lives-wrapper position-absolute d-flex justify-content-center align-items-center bg-<?php echo $level->worldColor1 ?> p-2">
                 <img src="img/lives.webp"
                      alt="Du har <?php echo $user->hearts; ?> liv"
                      class="lives-picture object-fit-cover">
@@ -40,7 +40,7 @@ $worldLevels = $db->sql("SELECT * FROM levels WHERE worldDesign = $level->worldD
             </div>
             <p class="display-1 text-center m-0 fw-bold text-white"><?php echo $level->worldName; ?></p>
             <!-- Profile Picture -->
-            <div class="profile-wrapper position-absolute bg-<?php echo $level->worldColor1 ?> p-2">
+            <div class="profile-wrapper position-absolute d-flex justify-content-center align-items-center bg-<?php echo $level->worldColor1 ?> p-2">
                 <img src="img/<?php echo $user->profilePic; ?>"
                      alt="Profile Picture"
                      class="profile-picture object-fit-cover rounded-circle ">
@@ -84,8 +84,8 @@ $worldGen = $worldGens[0];
                 '<img src="' . $levelImage . '" 
                   alt="Level ' . $level->levelId . '" 
                   class="level-icon ' . $extraClass . '"
-                  style="left: ' . $level->xPos . 'px; 
-                         top: ' . $level->yPos . 'px;">' .
+                  style="left: ' . $level->xPos . '%; 
+                         top: ' . $level->yPos . '%;">' .
                 $linkEnd;
         }
         ?>

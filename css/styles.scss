@@ -34,26 +34,29 @@ body {
 .lives-wrapper {
   left: 10px; /* Adjust to position */
   top: 50%; /* Center vertically */
-  transform: translateY(225%); /* Center alignment fix */
+  transform: translateY(540%); /* Center alignment fix */
   border-radius: 50%; /* Ensures the container is circular */
   z-index: 10; /* Keep it above other elements */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow for 3D effect */
+  width: 20%; /* Relative to parent */
+  aspect-ratio: 1; /* Maintain circle */
 }
 
 .moves-wrapper {
   left: 10px; /* Adjust to position */
   top: 50%; /* Center vertically */
-  transform: translateY(225%); /* Center alignment fix */
+  transform: translateY(540%); /* Center alignment fix */
   border-radius: 50%; /* Ensures the container is circular */
-  padding: 10px; /* Add space around the heart image */
   z-index: 10; /* Keep it above other elements */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow for 3D effect */
+  width: 20%; /* Relative to parent */
+  aspect-ratio: 1; /* Maintain circle */
 }
 
 .lives-picture {
-  width: 13rem; /* Make sure width and height are equal */
-  height: 13rem;
-  border-radius: 50%; /* Ensure the image remains circular */
+  width: 100%; /* 80% of .lives-wrapper */
+  aspect-ratio: 1; /* Maintain circle */
+  border-radius: 50%; /* Circular */
 }
 
 .heart-count {
@@ -64,24 +67,26 @@ body {
 }
 
 #moves {
-  transform: translate(0%, 100%); /* Perfect alignment */
+  transform: translate(0%, 40%); /* Perfect alignment */
   text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* Light shadow for readability */
 }
 
 .profile-wrapper {
   right: 10px; /* Adjust to position the profile picture correctly */
   top: 50%; /* Center vertically */
-  transform: translateY(225%); /* Fix alignment to center */
+  transform: translateY(540%); /* Fix alignment to center */
   border-radius: 50%; /* Rounded padding area */
   z-index: 10; /* Make sure it appears above other elements */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow for a subtle 3D effect */
+  width: 20%; /* Relative to parent */
+  aspect-ratio: 1; /* Maintain circle */
 }
 
 /* Profile picture styles */
 .profile-picture {
-  width: 13rem; /* Consistent size for both */
-  height: 13rem; /* Ensure they are square */
-  border-radius: 50%; /* Make them circular */
+  width: 100%; /* 100% of .lives-wrapper */
+  aspect-ratio: 1; /* Maintain circle */
+  border-radius: 50%; /* Circular */
 }
 
 #health {
@@ -166,7 +171,7 @@ body {
 }
 
 // Optional responsive scaling for smaller screens
-@media only screen and (min-width: 1024px) {
+@media only screen and (min-width: 1025px) {
   .lives-wrapper {
     left: 10px; /* Adjust to position */
     top: 50%; /* Center vertically */
@@ -174,6 +179,8 @@ body {
     border-radius: 50%; /* Ensures the container is circular */
     z-index: 10; /* Keep it above other elements */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow for 3D effect */
+    width: 20%; /* Relative to parent */
+    aspect-ratio: 1; /* Maintain circle */
   }
   .profile-wrapper {
     right: 10px; /* Adjust to position the profile picture correctly */
@@ -182,6 +189,8 @@ body {
     border-radius: 50%; /* Rounded padding area */
     z-index: 10; /* Make sure it appears above other elements */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow for a subtle 3D effect */
+    width: 20%; /* Relative to parent */
+    aspect-ratio: 1; /* Maintain circle */
   }
   .moves-wrapper {
     left: 10px; /* Adjust to position */
@@ -190,6 +199,8 @@ body {
     border-radius: 50%; /* Ensures the container is circular */
     z-index: 10; /* Keep it above other elements */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow for 3D effect */
+    width: 20%; /* Relative to parent */
+    aspect-ratio: 1; /* Maintain circle */
   }
   .modal-content-menu {
     width: 95%; /* For smaller screens, use more of the available width */
